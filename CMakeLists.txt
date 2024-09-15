@@ -34,7 +34,9 @@ CPMAddPackage(
 add_library(${PROJECT_NAME} STATIC 
   src/precomp.cpp 
   src/storage/segment.cpp 
-  src/storage/segments_sorted_array.cpp 
+  "src/storage/unused_segments_sorted_array.cpp" 
+  src/storage/clusters_array.cpp 
+  src/storage/storage.cpp 
   "${mimalloc_SOURCE_DIR}/src/static.c" 
   "${rpmalloc_SOURCE_DIR}/rpmalloc/rpmalloc.c" 
 )

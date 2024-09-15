@@ -14,7 +14,7 @@
 #include <meanbot/error.hpp>
 #include <meanbot/result.hpp>
 #include "meanbot/mempack/size_type.hpp"
-#include "meanbot/mempack/detail/config.hpp"
+#include "meanbot/mempack/storage/config.hpp"
 #include "meanbot/mempack/detail/byte_alignment.hpp"
 #include "meanbot/mempack/storage/header.hpp"
 #include <cstdint>
@@ -25,10 +25,11 @@ namespace meanbot::mempack::storage
 
 // all size are aligned and at least MIN_SIZE
 
+// storage is divided in segments that are used or free
 struct segment final
 {
-	static constexpr size_type   MIN_SIZE          = detail::config::ALIGNMENT + detail::config::ALIGNMENT;
-	static constexpr size_type   MAX_SIZE          = 0x00'00'00'00'00'04'00'00'00'00'00'00ULL - sizeof(header); // ~1PB
+	static constexpr size_type   MIN_SIZE          = config::ALIGNMENT + config::ALIGNMENT;
+	static constexpr size_type   MAX_SIZE          = config::MAX_SIZE - sizeof(header);
 
 	static constexpr size_type   STATE_BITMASK     = 1ULL << 63;
 	static constexpr size_type   PREV_SIZE_BITMASK = ~STATE_BITMASK;
@@ -83,7 +84,7 @@ struct segment final
 	                                        uint32_t *merge_info = nullptr);
 };//struct segment final
 
-static_assert(sizeof(segment) == detail::config::ALIGNMENT);
+static_assert(sizeof(segment) == config::ALIGNMENT);
 
 }//namespace meanbot::mempack::storage
 

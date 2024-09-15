@@ -57,7 +57,7 @@ void segment::set_unused()
 
 void segment::set_prev_size_and_used(size_type prev_size)
 {
-	prev_size_and_state_ = STATE_BITMASK | (prev_size_and_state_ & PREV_SIZE_BITMASK);
+	prev_size_and_state_ = STATE_BITMASK | (prev_size & PREV_SIZE_BITMASK);
 }
 
 void segment::set_prev_size_and_unused(size_type prev_size)

@@ -9,28 +9,28 @@
 // SPDX-License-Identifier: MIT
 
 #include "precomp.hpp"
-#include "meanbot/mempack/storage/segments_sorted_array.hpp"
+#include "meanbot/mempack/storage/unused_segments_sorted_array.hpp"
 
 
 namespace meanbot::mempack::storage
 {
 
-result<size_type> segments_sorted_array::get_mem_size(size_type total_segment_count)
+result<size_type> unused_segments_sorted_array::get_mem_size(size_type total_segment_count)
 {
 	if (0 == total_segment_count)
 	{
 		return fail(error::invalid_arg);
 	}
-	if (sizeof(entry) > (segment::MAX_SIZE - sizeof(segments_sorted_array)) / (total_segment_count - 1))
+	if (sizeof(entry) > (segment::MAX_SIZE - sizeof(unused_segments_sorted_array)) / (total_segment_count - 1))
 	{
 		return fail(error::too_big);
 	}
 
-	return detail::byte_alignment::align(sizeof(segments_sorted_array) + (total_segment_count - 1) * sizeof(entry), 
-	                                     detail::config::ALIGNMENT);
+	return detail::byte_alignment::align(sizeof(unused_segments_sorted_array) + (total_segment_count - 1) * sizeof(entry), 
+	                                     config::ALIGNMENT);
 }
 
-result<> segments_sorted_array::init(size_type total_segments_count)
+result<> unused_segments_sorted_array::init(size_type total_segments_count)
 {
 	total_count_ = total_segments_count;
 	used_count_  = 0;
@@ -39,7 +39,7 @@ result<> segments_sorted_array::init(size_type total_segments_count)
 	return success();
 }
 
-bool segments_sorted_array::search(uint64_t &index, uint64_t size, uint64_t offset/* = INVALID_SIZE*/)
+bool unused_segments_sorted_array::search(uint64_t &index, uint64_t size, uint64_t offset/* = INVALID_SIZE*/)
 {
 	if (0 == used_count_)
 	{
@@ -132,7 +132,7 @@ bool segments_sorted_array::search(uint64_t &index, uint64_t size, uint64_t offs
 	}
 }
 
-result<> segments_sorted_array::insert_at_index(uint64_t index, uint64_t size, uint64_t offset)
+result<> unused_segments_sorted_array::insert_at_index(uint64_t index, uint64_t size, uint64_t offset)
 {
 	if (used_count_ == total_count_)
 	{
@@ -149,7 +149,7 @@ result<> segments_sorted_array::insert_at_index(uint64_t index, uint64_t size, u
 	return success();
 }
 
-result<> segments_sorted_array::remove_at_index(uint64_t index)
+result<> unused_segments_sorted_array::remove_at_index(uint64_t index)
 {
 	if (index < used_count_ - 1)
 	{
@@ -160,7 +160,7 @@ result<> segments_sorted_array::remove_at_index(uint64_t index)
 	return success();
 }
 
-result<> segments_sorted_array::add(size_type size, size_type offset)
+result<> unused_segments_sorted_array::add(size_type size, size_type offset)
 {
 	uint64_t   index = 0;
 
@@ -177,7 +177,7 @@ result<> segments_sorted_array::add(size_type size, size_type offset)
 }
 
 // remove an unused exact segment
-result<> segments_sorted_array::remove(size_type size, size_type offset)
+result<> unused_segments_sorted_array::remove(size_type size, size_type offset)
 {
 	uint64_t   index = 0;
 
@@ -194,7 +194,7 @@ result<> segments_sorted_array::remove(size_type size, size_type offset)
 }
 
 // remove an unused segment that has at least <size> size
-result<> segments_sorted_array::remove(size_type size, uint64_t &found_size, uint64_t &found_offset)
+result<> unused_segments_sorted_array::remove(size_type size, uint64_t &found_size, uint64_t &found_offset)
 {
 	uint64_t   index = 0;
 

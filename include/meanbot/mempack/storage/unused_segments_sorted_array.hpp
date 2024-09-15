@@ -14,7 +14,7 @@
 #include <meanbot/error.hpp>
 #include <meanbot/result.hpp>
 #include "meanbot/mempack/storage/segment.hpp"
-#include "meanbot/mempack/detail/config.hpp"
+#include "meanbot/mempack/storage/config.hpp"
 #include "meanbot/mempack/detail/byte_alignment.hpp"
 #include <cstdint>
 
@@ -22,7 +22,7 @@
 namespace meanbot::mempack::storage
 {
 
-struct segments_sorted_array final
+struct unused_segments_sorted_array final
 {
 	struct entry final
 	{

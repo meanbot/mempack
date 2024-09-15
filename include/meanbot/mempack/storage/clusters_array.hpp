@@ -11,15 +11,20 @@
 #pragma once
 
 
-#include "meanbot/mempack/size_type.hpp"
+#include <meanbot/error.hpp>
+#include <meanbot/result.hpp>
+#include "meanbot/mempack/storage/segment.hpp"
+#include "meanbot/mempack/storage/config.hpp"
+#include "meanbot/mempack/detail/byte_alignment.hpp"
+#include <cstdint>
 
 
-namespace meanbot::mempack::detail
+namespace meanbot::mempack::storage
 {
 
-struct config final
+struct clusters_array final
 {
-	static constexpr size_type ALIGNMENT = 16;
-};//struct config final
+	static result<size_type> get_mem_size(size_type cluster_count);
+};//clusters_array
 
-}//namespace meanbot::mempack::detail
+}//namespace meanbot::mempack::storage

@@ -13,7 +13,7 @@
 
 #include "meanbot/mempack/offptr_type.hpp"
 #include "meanbot/mempack/size_type.hpp"
-#include "meanbot/mempack/detail/config.hpp"
+#include "meanbot/mempack/storage/config.hpp"
 #include "meanbot/mempack/detail/byte_alignment.hpp"
 #include <cstdint>
 
@@ -40,13 +40,13 @@ struct header final
 	size_type   usroffptrs_size_   = 0; // size of the user offpptrs container
 	size_type   extdata_offset_    = 0; // offset of the extra data container
 	size_type   extdata_size_      = 0; // size of the extra data container
+	size_type   last_segment_size_ = 0; // size of the last segment
 	size_type   reserved0_         = 0; // not used
 	size_type   reserved1_         = 0; // not used
 	size_type   reserved2_         = 0; // not used
-	size_type   reserved3_         = 0; // not used
 };
 
-static_assert(detail::byte_alignment::is_aligned(sizeof(header), detail::config::ALIGNMENT));
+static_assert(detail::byte_alignment::is_aligned(sizeof(header), config::ALIGNMENT));
 
 }//namespace meanbot::mempack::storage
 

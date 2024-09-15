@@ -11,25 +11,12 @@
 #pragma once
 
 
-#include <meanbot/error.hpp>
-#include <meanbot/result.hpp>
-#include "meanbot/mempack/size_type.hpp"
-#include "meanbot/mempack/detail/config.hpp"
-#include "meanbot/mempack/detail/byte_alignment.hpp"
-#include "meanbot/mempack/storage/header.hpp"
-#include <cstdint>
+#include "meanbot/mempack/storage/unused_segments_sorted_array.hpp"
 
 
 namespace meanbot::mempack::storage
 {
 
-// specialized segment that keeps 64 blocks of the same size
-struct cluster final
-{
-	size_type   block_size_ = 0;
-	size_type   bitmap_     = 0;
-};//struct cluster final
-
-static_assert(sizeof(cluster) == detail::config::ALIGNMENT);
+using unused_segments = unused_segments_sorted_array;
 
 }//namespace meanbot::mempack::storage

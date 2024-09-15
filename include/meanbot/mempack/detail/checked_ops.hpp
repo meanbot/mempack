@@ -11,12 +11,34 @@
 #pragma once
 
 
-#include "meanbot/mempack/storage/segments_sorted_array.hpp"
+#include "meanbot/mempack/offptr_type.hpp"
+#include "meanbot/mempack/size_type.hpp"
+#include <cstdint>
 
 
-namespace meanbot::mempack::storage
+namespace meanbot::mempack::detail
 {
 
-using segments = segments_sorted_array;
+struct checked_ops final
+{
+	// a is <= max
+	template <typename R, typename A, typename B>
+	static bool add(R &r, A a, B b, R max)
+	{
+		if (b > max)
+		{
+			return false;
+		}
+		if (max - b < a)
+		{
+			return false;
+		}
+
+		r = a + b;
+
+		return true;
+	};
+};
 
 }//namespace meanbot::mempack::storage
+

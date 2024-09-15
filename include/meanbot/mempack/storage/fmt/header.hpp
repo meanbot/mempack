@@ -47,27 +47,10 @@ struct fmt::formatter<meanbot::mempack::storage::header> : fmt::formatter<std::s
 		format_to(out, "   usroffptrs_size   = {}\n", header.usroffptrs_size_);
 		format_to(out, "   extdata_offset    = {}\n", header.extdata_offset_);
 		format_to(out, "   extdata_size      = {}\n", header.extdata_size_);
+		format_to(out, "   last_segment_size = {}\n", header.last_segment_size_);
 		format_to(out, "   reserved0         = {}\n", header.reserved0_);
 		format_to(out, "   reserved1         = {}\n", header.reserved1_);
-		format_to(out, "   reserved2         = {}\n", header.reserved2_);
-		format_to(out, "   reserved3         = {}\n", header.reserved3_);
-		format_to(out, "segments:\n");
-
-		size_t   segment_index = 0;
-
-		format_to(out, "   +-------------+-------------+-------------+------+\n");
-		format_to(out, "   |           # |      OFFSET |        SIZE | USED |\n");
-		format_to(out, "   +-------------+-------------+-------------+------+\n");
-		while (segment < segment_eof)
-		{
-			format_to(out, "   | {:>11d} | {:>11d} | {:>11d} | {:^4s} |\n", segment_index, 
-			          (const uint8_t *)segment - (const uint8_t *)&header, segment->get_size(), 
-			          segment->is_used() ? "YES" : "NO");
-
-			segment = (const meanbot::mempack::storage::segment *)((const uint8_t *)segment + segment->get_size());
-			segment_index++;
-		}
-		format_to(out, "   +-------------+-------------+-------------+------+\n");
+		format_to(out, "   reserved2         = {}", header.reserved2_);
 
 		return out;
 	}
